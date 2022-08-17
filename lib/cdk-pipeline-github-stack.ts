@@ -26,8 +26,6 @@ export class CdkPipelineGithubStack extends cdk.Stack {
       })
     });
 
-    console.log('Env Var from cdk-pipeline-github-stack:', process.env);
-
     const lambdaStage = new CdkPipelineAppStage(this, 'Test', {
       env: {
         account: process.env.CDK_DEFAULT_ACCOUNT,

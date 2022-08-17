@@ -43,7 +43,7 @@ export class CdkPipelineGithubStack extends cdk.Stack {
           envFromCfnOutputs: {
             lambdaFunctionUrl: lambdaStage.lambdaFunctionUrl
           },
-          commands: ['bash ./test/validation.sh']
+          commands: ['bash ./test/validate.sh']
         })
       );
 

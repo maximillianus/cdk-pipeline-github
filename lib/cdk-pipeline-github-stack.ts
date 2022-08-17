@@ -23,5 +23,14 @@ export class CdkPipelineGithubStack extends cdk.Stack {
             env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION }
         }))
         .addPost(new ManualApprovalStep('approval'));
+
+    // add Wave for multiple parallel deployment
+    const wave = pipeline.addWave('wave');
+    wave.addStage(new CdkPipelineAppStage(this, 'CdkPipelineApp-ID', {
+      env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'ap-southeast-3' }
+    }));
+    wave.addStage(new CdkPipelineAppStage(this, 'CdkPipelineApp-US', {
+      env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'us-east-1' }
+    }));
   }
 }

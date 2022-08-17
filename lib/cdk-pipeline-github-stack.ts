@@ -19,16 +19,16 @@ export class CdkPipelineGithubStack extends cdk.Stack {
 
     // Add a stage for Lambda
     pipeline
-        .addStage(new CdkPipelineAppStage(this, "test", {
-            env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION }
+        .addStage(new CdkPipelineAppStage(this, "Test", {
+            env: { 
+                account: process.env.CDK_DEFAULT_ACCOUNT,
+                region: process.env.CDK_DEFAULT_REGION
+            }
         }))
-        .addPost(new ManualApprovalStep('approval'));
+        .addPost(new ManualApprovalStep('Approval'));
 
     // add Wave for multiple parallel deployment
     const wave = pipeline.addWave('wave');
-    wave.addStage(new CdkPipelineAppStage(this, 'CdkPipelineApp-ID', {
-      env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'ap-southeast-3' }
-    }));
     wave.addStage(new CdkPipelineAppStage(this, 'CdkPipelineApp-US', {
       env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: 'us-east-1' }
     }));

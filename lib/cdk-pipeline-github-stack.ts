@@ -1,5 +1,5 @@
 import { Construct } from 'constructs';
-import { CodePipeline, CodePipelineSource, ShellStep } from 'aws-cdk-lib/pipelines';
+import { CodePipeline, CodePipelineSource, ShellStep, ManualApprovalStep } from 'aws-cdk-lib/pipelines';
 import * as cdk from 'aws-cdk-lib';
 import { CdkPipelineAppStage } from './cdk-pipeline-app-stage';
 
@@ -18,8 +18,10 @@ export class CdkPipelineGithubStack extends cdk.Stack {
     });
 
     // Add a stage for Lambda
-    pipeline.addStage(new CdkPipelineAppStage(this, "test", {
-        env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION }
-    }));
+    pipeline
+        .addStage(new CdkPipelineAppStage(this, "test", {
+            env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION }
+        }))
+        .addPost(new ManualApprovalStep('approval'));
   }
 }

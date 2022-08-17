@@ -19,7 +19,7 @@ export class CdkPipelineGithubStack extends cdk.Stack {
 
     // Add a stage for Lambda
     pipeline.addStage(new CdkPipelineAppStage(this, "test", {
-        env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_ACCOUNT }
+        env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_REGION }
     }));
   }
 }

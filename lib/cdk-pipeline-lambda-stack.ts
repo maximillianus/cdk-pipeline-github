@@ -3,7 +3,7 @@ import { Construct } from 'constructs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 
 export class CdkPipelineLambdaStack extends cdk.Stack {
-  public readonly lambdaFunctionUrl: cdk.CfnOutput;
+  public readonly lambdaFunctionUrl: string;
 
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
@@ -14,12 +14,15 @@ export class CdkPipelineLambdaStack extends cdk.Stack {
       code: new lambda.InlineCode('exports.handler = _ => "Hello, CDK";')
     });
 
-    const fnUrl = fn.addFunctionUrl({
-      authType: lambda.FunctionUrlAuthType.NONE
-    });
+    this.lambdaFunctionUrl = 'https://example.com';
 
-    this.lambdaFunctionUrl = new cdk.CfnOutput(this, 'lambda-function-url', {
-      value: fnUrl.url
-    });
+    // Disabling public function URL due to security reason
+    // const fnUrl = fn.addFunctionUrl({
+    //   authType: lambda.FunctionUrlAuthType.NONE
+    // });
+
+    // this.lambdaFunctionUrl = new cdk.CfnOutput(this, 'lambda-function-url', {
+    //   value: fnUrl.url
+    // });
   }
 }

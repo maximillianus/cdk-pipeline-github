@@ -26,6 +26,8 @@ export class CdkPipelineGithubStack extends cdk.Stack {
       })
     });
 
+    console.log('Env Var from cdk-pipeline-github-stack:', process.env);
+
     const lambdaStage = new CdkPipelineAppStage(this, 'Test', {
       env: {
         account: process.env.CDK_DEFAULT_ACCOUNT,
@@ -40,9 +42,9 @@ export class CdkPipelineGithubStack extends cdk.Stack {
       .addPost(
         new ShellStep('Echo Lambda FnUrl', {
           input: source,
-          envFromCfnOutputs: {
-            lambdaFunctionUrl: lambdaStage.lambdaFunctionUrl
-          },
+          // envFromCfnOutputs: {
+          //   lambdaFunctionUrl: lambdaStage.lambdaFunctionUrl
+          // },
           commands: ['bash ./test/validate.sh']
         })
       );

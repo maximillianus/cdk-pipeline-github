@@ -3,7 +3,7 @@ import { Construct } from 'constructs';
 import { CdkPipelineLambdaStack } from './cdk-pipeline-lambda-stack';
 
 export class CdkPipelineAppStage extends cdk.Stage {
-  public readonly lambdaFunctionUrl: cdk.CfnOutput;
+  public readonly lambdaFunctionUrl: string;
 
   constructor(scope: Construct, id: string, props?: cdk.StageProps) {
     super(scope, id, props);

@@ -12,14 +12,16 @@ export class CdkPipelineGithubStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    const source = CodePipelineSource.gitHub(
+      'maximillianus/cdk-pipeline-github',
+      'master'
+    );
+
     // Create initial CI/CD Pipeline
     const pipeline = new CodePipeline(this, 'Pipeline', {
       pipelineName: 'CDK-Pipeline-Github',
       synth: new ShellStep('Synth', {
-        input: CodePipelineSource.gitHub(
-          'maximillianus/cdk-pipeline-github',
-          'master'
-        ),
+        input: source,
         commands: ['npm ci', 'npm run build', 'npx cdk synth']
       })
     });
@@ -37,10 +39,11 @@ export class CdkPipelineGithubStack extends cdk.Stack {
       // .addPost(new ManualApprovalStep('Approval'))
       .addPost(
         new ShellStep('Echo Lambda FnUrl', {
+          input: source,
           envFromCfnOutputs: {
             lambdaFunctionUrl: lambdaStage.lambdaFunctionUrl
           },
-          commands: ['echo "Hello World"', 'echo $lambdaFunctionUrl']
+          commands: ['bash ./test/validation.sh']
         })
       );
 

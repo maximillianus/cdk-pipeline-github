@@ -1,11 +1,14 @@
 import { Construct } from 'constructs';
 import { CodePipeline, CodePipelineSource, ShellStep } from 'aws-cdk-lib/pipelines';
 import * as cdk from 'aws-cdk-lib';
+import { CdkPipelineAppStage } from './cdk-pipeline-app-stage';
+
 
 export class CdkPipelineGithubStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    // Create initial CI/CD Pipeline
     const pipeline = new CodePipeline(this, 'Pipeline', {
       pipelineName: 'CDK-Pipeline-Github',
       synth: new ShellStep('Synth', {
@@ -13,5 +16,10 @@ export class CdkPipelineGithubStack extends cdk.Stack {
         commands: ['npm ci', 'npm run build', 'npx cdk synth']
       })
     });
+
+    // Add a stage for Lambda
+    pipeline.addStage(new CdkPipelineAppStage(this, "test", {
+        env: { account: process.env.CDK_DEFAULT_ACCOUNT, region: process.env.CDK_DEFAULT_ACCOUNT }
+    }));
   }
 }

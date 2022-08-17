@@ -1,3 +1,6 @@
+# Welcome to CDK Pipeline Demo Project
+This repository is meant to demonstrate CDK Pipeline where we can leverage CI/CD process in AWS CDK to continuously develop and update our Cloud Infrastructure.
+
 # Welcome to your CDK TypeScript project
 
 This is a blank project for CDK development with TypeScript.

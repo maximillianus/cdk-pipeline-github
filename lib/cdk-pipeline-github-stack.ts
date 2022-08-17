@@ -9,7 +9,7 @@ export class CdkPipelineGithubStack extends cdk.Stack {
     const pipeline = new CodePipeline(this, 'Pipeline', {
       pipelineName: 'CDK-Pipeline-Github',
       synth: new ShellStep('Synth', {
-        input: CodePipelineSource.gitHub('maximillianus/cdk-pipeline-github', 'main'),
+        input: CodePipelineSource.gitHub('maximillianus/cdk-pipeline-github', 'master'),
         commands: ['npm ci', 'npm run build', 'npx cdk synth']
       })
     });
